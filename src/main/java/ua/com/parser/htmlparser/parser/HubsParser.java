@@ -1,4 +1,4 @@
-package ua.com.parser.htmlparser;
+package ua.com.parser.htmlparser.parser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,20 +13,24 @@ import java.util.List;
  * Created by vadim on 16.01.17.
  */
 
-public class HubsParser {
+public class HubsParser extends Parser {
 
-    public List<String> getHubs() throws IOException {
+    public List<String> getHubs() {
         List<String> result = new ArrayList<>();
 
         String url = "https://habrahabr.ru/hubs";
         String urlNextPages = url + "/page%s";
 
-        result.addAll(getHubLinks(url));
+        try {
+            result.addAll(getHubLinks(url));
 
-        int start = 2; // start index to parse next page;
-        for (int i = start; i <= getMaxPageNumber(url) ; i++) {
-            String nextUrl =String.format(urlNextPages, i);
-            result.addAll(getHubLinks(nextUrl));
+            int start = 2; // start index to parse next page;
+            for (int i = start; i <= getMaxPageNumber(url) ; i++) {
+                String nextUrl =String.format(urlNextPages, i);
+                result.addAll(getHubLinks(nextUrl));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to get a list of hubs: " + e.getMessage());
         }
 
         return result;
@@ -45,16 +49,4 @@ public class HubsParser {
         return result;
     }
 
-    private int getMaxPageNumber(String url) throws IOException {
-        Document doc = Jsoup.connect(url).get();
-        Elements links = doc.getElementById("nav-pages").getElementsByTag("li");
-        String lastLink = links.last().child(0).attr("href");
-
-        return parseNumber(lastLink);
-    }
-
-    private int parseNumber(String lastLink) {
-
-        return Integer.parseInt(lastLink.substring(lastLink.indexOf("page") + 4, lastLink.lastIndexOf('/')));
-    }
 }

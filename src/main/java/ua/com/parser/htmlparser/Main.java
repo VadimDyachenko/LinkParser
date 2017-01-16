@@ -1,5 +1,8 @@
 package ua.com.parser.htmlparser;
 
+import ua.com.parser.htmlparser.fileworker.FileWorker;
+import ua.com.parser.htmlparser.fileworker.FileWorkerImpl;
+
 /**
  * Created by vadim on 15.01.17.
  */
