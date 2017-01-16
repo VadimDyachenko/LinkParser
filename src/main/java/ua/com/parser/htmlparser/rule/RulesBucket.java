@@ -16,9 +16,11 @@ public class RulesBucket {
         Pattern pattern = Pattern.compile("[><=!]+");
         Matcher matcher = pattern.matcher(str);
         if(matcher.find()) {
+
             String key = str.substring(0, matcher.start());
             String condition = str.substring(matcher.start(), matcher.end());
             String value = str.substring(matcher.end());
+
             rules.add(new RuleImpl(key, condition, value));
         }
     }
