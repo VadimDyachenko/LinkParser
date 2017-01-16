@@ -12,14 +12,15 @@ public class RulesBucket {
 
     List<Rule> rules = new LinkedList<>();
 
-
     public void createRule(String str) {
         Pattern pattern = Pattern.compile("[><=!]+");
         Matcher matcher = pattern.matcher(str);
-        System.out.println(str);
-        System.out.println(matcher.find() ?
-                "found '"+matcher.group()+"' starting at index "+matcher.start()+" and ending at index "+matcher.end()+"." :
-                "I found nothing!");
+        if(matcher.find()) {
+            String key = str.substring(0, matcher.start());
+            String condition = str.substring(matcher.start(), matcher.end());
+            String value = str.substring(matcher.end());
+            rules.add(new RuleImpl(key, condition, value));
+        }
     }
 
     public List<Rule> getRules() {
