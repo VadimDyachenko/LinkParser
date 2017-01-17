@@ -55,6 +55,7 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
             for (Rule rule : rules) {
                 if(checkRule(rule, element)) {
                     result.put(id, link);
+                    break;
                 }
             }
         });
@@ -66,7 +67,7 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
         Elements elements = element.getElementsByAttributeValue("class", getClassValue(rule));
         elements.forEach(innerElement -> {
             String value = innerElement.text();
-            String condition = rule.getCondition();
+
 
         });
 
@@ -88,7 +89,7 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
 
 
 // 1) Получаем Elements статей на странице.
-//  выитываем ссылку и id
+//  вычитываем ссылку и id статьи
 // 2) в цикле прогоняем статью по всем правилам:
 //      - если правило key = vote, то ищем внутри element блок <span class="voting-wjt__counter-score js-score" title="Общий рейтинг 52: &uarr;47 и &darr;5">+42</span>
 //            - сравниваем число в блоке с числом в Rule возвращаем true|false

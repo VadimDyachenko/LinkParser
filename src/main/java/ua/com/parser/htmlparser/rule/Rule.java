@@ -5,7 +5,7 @@ package ua.com.parser.htmlparser.rule;
  */
 public interface Rule {
 
-    String getKey();
+    Key getKey();
 
     String getCondition();
 
