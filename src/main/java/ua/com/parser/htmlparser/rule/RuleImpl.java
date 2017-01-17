@@ -7,9 +7,9 @@ public class RuleImpl implements Rule {
 
     private String key;
     private String condition;
-    private String value;
+    private int value;
 
-    public RuleImpl(String key, String condition, String value) {
+    public RuleImpl(String key, String condition, int value) {
 
         this.key = key;
         this.condition = condition;
@@ -27,7 +27,7 @@ public class RuleImpl implements Rule {
     }
 
     @Override
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 

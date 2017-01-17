@@ -8,7 +8,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by vadim on 16.01.17.
+ * Created by vadim
+ * on 16.01.17.
  */
 public class RuleBucketTest {
 
@@ -23,14 +24,13 @@ public class RuleBucketTest {
 //    }
 
     @Test
-    public void test_read() {
-        FileWorker fileWorker = new FileWorkerImpl();
+    public void testCreateRule2() {
 
-        List<String> requests = fileWorker.read("/home/aleksandr/java/workspace/LinkParser/Input.txt");
-        for (String str : requests) {
-            System.out.println(str);
-        }
+        FileWorker file = new FileWorkerImpl();
+        RulesBucket bucket = new RulesBucket();
+        String inputPath = "src/test/resources/input.txt";
 
-        fileWorker.write(requests, "/home/aleksandr/java/workspace/LinkParser/output.txt");
+        List<String> requests = file.read(inputPath);
+        bucket.createRule(requests);
     }
 }

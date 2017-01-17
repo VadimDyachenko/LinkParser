@@ -1,5 +1,7 @@
 package ua.com.parser.htmlparser.rule;
 
+import com.sun.org.apache.regexp.internal.CharacterArrayCharacterIterator;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -21,11 +23,21 @@ public class RulesBucket {
 
                 String key = str.substring(0, matcher.start());
                 String condition = str.substring(matcher.start(), matcher.end());
-                String value = str.substring(matcher.end());
+                int value = toInt(str.substring(matcher.end()).toCharArray());
 
                 rules.add(new RuleImpl(key, condition, value));
             }
         }
+    }
+
+    private int toInt(char[] value) {
+        String tmp = "";
+        for (char aValueCh : value) {
+            if (Character.isDigit(aValueCh)) {
+                tmp = String.valueOf(aValueCh);
+            }
+        }
+        return Integer.parseInt(tmp);
     }
 
     public List<Rule> getRules() {
