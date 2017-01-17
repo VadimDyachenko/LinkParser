@@ -1,23 +1,12 @@
-package ua.com.parser.htmlparser.parser;
+package ua.com.parser.htmlparser.checker;
 
 import ua.com.parser.htmlparser.rule.Rule;
 
-/**
- * Created by vadim on 17.01.17.
- */
-public abstract class Checker {
+public abstract class AbstractChecker implements Checker {
 
-    private String getClassValue(Rule rule) {
+    public abstract String getParseValue();
 
-        String result = "views-count_post";
-        if (rule.getKey().equals("vote")) {
-            result = "voting-wjt__counter-score js-score";
-        } else if (rule.getKey().equals("favorite")) {
-            result = "favorite-wjt__counter js-favs_count";
-        }
 
-        return result;
-    }
 
 
     public boolean check(Rule rule, int value) {

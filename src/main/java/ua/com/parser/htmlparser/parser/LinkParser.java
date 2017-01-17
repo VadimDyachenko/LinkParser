@@ -64,6 +64,7 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
     }
 
     private boolean checkRule(Rule rule, Element element) {
+
         Elements elements = element.getElementsByAttributeValue("class", getClassValue(rule));
         elements.forEach(innerElement -> {
             String value = innerElement.text();
