@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by vadim on 16.01.17.
- */
 public class RulesBucket {
 
     private List<Rule> rules = new LinkedList<>();
