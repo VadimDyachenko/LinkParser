@@ -30,11 +30,11 @@ public class RulesBucket {
         }
     }
 
-    private int toInt(char[] valueCh) {
+    private int toInt(char[] value) {
         String tmp = "";
-        for (int i = 0; i < valueCh.length; i++) {
-            if (Character.isDigit(valueCh[i])) {
-                tmp = String.valueOf(valueCh[i]);
+        for (char aValueCh : value) {
+            if (Character.isDigit(aValueCh)) {
+                tmp = String.valueOf(aValueCh);
             }
         }
         return Integer.parseInt(tmp);
