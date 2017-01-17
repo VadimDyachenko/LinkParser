@@ -1,7 +1,5 @@
 package ua.com.parser.htmlparser.fileworker;
 
-import ua.com.parser.htmlparser.rule.Rule;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
