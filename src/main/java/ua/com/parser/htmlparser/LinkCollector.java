@@ -10,9 +10,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-/**
- * Created by vadim on 15.01.17.
- */
 public class LinkCollector {
     private final String URL = "https://habrahabr.ru/hubs/";
     private HubsParser hubsParser;
@@ -41,7 +38,6 @@ public class LinkCollector {
 
             }
         }
-
         return links;
     }
 }
