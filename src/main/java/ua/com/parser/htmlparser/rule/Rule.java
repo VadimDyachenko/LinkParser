@@ -9,5 +9,5 @@ public interface Rule {
 
     String getCondition();
 
-    String getValue();
+    int getValue();
 }

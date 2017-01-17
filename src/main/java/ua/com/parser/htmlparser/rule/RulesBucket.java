@@ -21,9 +21,9 @@ public class RulesBucket {
 
                 String key = str.substring(0, matcher.start());
                 String condition = str.substring(matcher.start(), matcher.end());
-                String value = str.substring(matcher.end());
-
-                rules.add(new RuleImpl(key, condition, value));
+//                int value = str.substring(matcher.end());
+                // TODO implement
+//                rules.add(new RuleImpl(key, condition, value));
             }
         }
     }
