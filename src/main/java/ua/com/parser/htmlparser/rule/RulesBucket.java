@@ -1,6 +1,5 @@
 package ua.com.parser.htmlparser.rule;
 
-import com.sun.org.apache.regexp.internal.CharacterArrayCharacterIterator;
 
 import java.util.LinkedList;
 import java.util.List;
