@@ -2,36 +2,37 @@ package ua.com.parser.htmlparser.fileworker;
 
 import ua.com.parser.htmlparser.rule.Rule;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class FileWorkerImpl implements FileWorker {
-    public List<Rule> read(String fileName) {
-        String query = ""; // TODO реализовать разбор запроса
+
+    public List<String> read(String fileName) {
+
         try {
-            FileInputStream input = new FileInputStream(fileName);
-            int data = input.read();
-            boolean notYetReadCompletely = data != -1;
-            while (notYetReadCompletely) {
-                query += String.valueOf((char) data);
-                data = input.read();
-            }
-            input.close();
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
+
+            return Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("File %s is not read: %s", fileName, e.getMessage()));
         }
-        return null; // TODO разобраться что возвращает WTF Rule
     }
 
     public void write(List<String> links, String path) {
+        File file = new File(path);
         try {
-            FileOutputStream output = new FileOutputStream(path);
-            for (String link : links) {
-                output.write(link.getBytes());
+            if (!file.exists()) {
+                file.createNewFile();
             }
-            output.close();
+            try (PrintWriter out = new PrintWriter(file.getAbsoluteFile())) {
+                for (String link : links) {
+                    out.print(link);
+                }
+            }
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
         }
