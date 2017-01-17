@@ -13,24 +13,17 @@ import static org.junit.Assert.assertEquals;
  */
 public class RuleBucketTest {
 
-//    @Test
-//    public void testCreateRule() {
-//        //given
-//        RulesBucket bucket = new RulesBucket();
-//        //when
-//        bucket.createRule("vote>=100");
-//        //then
-//        assertEquals("key='vote', condition='>=', value='100'", bucket.getRules().get(0).toString());
-//    }
-
     @Test
-    public void testCreateRule2() {
-
+    public void testCreateRule() {
+        //given
         FileWorker file = new FileWorkerImpl();
         RulesBucket bucket = new RulesBucket();
         String inputPath = "src/test/resources/input.txt";
-
         List<String> requests = file.read(inputPath);
+        //when
         bucket.createRule(requests);
+
+        //then
+        assertEquals(50, bucket.getRules().get(0).getValue() );
     }
 }
