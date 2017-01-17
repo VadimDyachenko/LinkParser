@@ -1,7 +1,6 @@
 package ua.com.parser.htmlparser.fileworker;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -18,9 +17,6 @@ public class FileWorkerImpl implements FileWorker {
     public List<String> read(String fileName) {
         File file = new File(fileName);
         try {
-            if (!file.exists()) {
-                throw new FileNotFoundException("File not found!");
-            }
             return Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
@@ -36,7 +32,7 @@ public class FileWorkerImpl implements FileWorker {
             }
             try (PrintWriter out = new PrintWriter(file.getAbsoluteFile())) {
                 for (String link : links) {
-                    out.print(link);
+                    out.print(link + "\n");
                 }
             }
         } catch (IOException e) {
