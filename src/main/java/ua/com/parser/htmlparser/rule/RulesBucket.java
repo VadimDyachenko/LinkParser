@@ -23,21 +23,11 @@ public class RulesBucket {
 
                 String key = str.substring(0, matcher.start());
                 String condition = str.substring(matcher.start(), matcher.end());
-                int value = toInt(str.substring(matcher.end()).toCharArray());
+                int value = Integer.parseInt(str.substring(matcher.end()).replace("+",""));
 
                 rules.add(new RuleImpl(key, condition, value));
             }
         }
-    }
-
-    private int toInt(char[] value) {
-        String tmp = "";
-        for (char aValueCh : value) {
-            if (Character.isDigit(aValueCh)) {
-                tmp = String.valueOf(aValueCh);
-            }
-        }
-        return Integer.parseInt(tmp);
     }
 
     public List<Rule> getRules() {
