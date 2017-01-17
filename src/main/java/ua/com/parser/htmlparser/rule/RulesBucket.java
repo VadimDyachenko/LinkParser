@@ -10,11 +10,13 @@ import java.util.regex.Pattern;
  */
 public class RulesBucket {
 
-    List<Rule> rules = new LinkedList<>();
+    private List<Rule> rules = new LinkedList<>();
 
     public void createRule(String str) {
+
         Pattern pattern = Pattern.compile("[><=!]+");
         Matcher matcher = pattern.matcher(str);
+
         if(matcher.find()) {
 
             String key = str.substring(0, matcher.start());

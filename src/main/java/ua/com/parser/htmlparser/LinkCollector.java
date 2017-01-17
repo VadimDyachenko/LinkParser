@@ -33,6 +33,7 @@ public class LinkCollector {
         List<String> hubs = hubsParser.getHubs();
 
         if (hubs != null && !hubs.isEmpty()) {
+
             ExecutorService executor = Executors.newFixedThreadPool(10);
             List<Future<String>> list = new ArrayList<Future<String>>();
             Callable<List<String>> callable;

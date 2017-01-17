@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by vadim on 16.01.17.
  */
-public class LinkParser extends Parser implements Callable<Map<Integer,String>> {
+public class LinkParser extends Parser implements Callable<Map<Integer, String>> {
     private String url;
     private List<Rule> rules;
 
@@ -33,7 +33,7 @@ public class LinkParser extends Parser implements Callable<Map<Integer,String>> 
             result.putAll(getLinks(url));
 
             int start = 2; // start index to parse next page;
-            for (int i = start; i <= getMaxPageNumber(url) ; i++) {
+            for (int i = start; i <= getMaxPageNumber(url); i++) {
                 String nextUrl = String.format(urlNextPage, i);
                 result.putAll(getLinks(nextUrl));
             }
@@ -45,13 +45,26 @@ public class LinkParser extends Parser implements Callable<Map<Integer,String>> 
     }
 
     private Map<Integer, String> getLinks(String url) throws IOException {
+
         Map<Integer, String> result = new HashMap<>();
 
         Document doc = Jsoup.connect(url).get();
         Elements elements = doc.getElementsByAttributeValue("class", "post post_teaser shortcuts_item");
+
         elements.forEach(element -> {
             String id = element.attr("id");
-            Element aElement = element.child(2).child(0).child(0).child(1);
+            Element aElement = element.child(0).child(1);
+            String link = aElement.attr("href");
+
+            for (Rule rule : rules) {
+                if (rule.getKey().equals("vote")) {
+                    voteRule(element);
+                } else if (rule.getKey().equals("favorite")) {
+                    favoriteRule(element);
+                } else if (rule.getKey().equals("view")) {
+                    viewRule(element);
+                }
+            }
         });
 
         return result;
