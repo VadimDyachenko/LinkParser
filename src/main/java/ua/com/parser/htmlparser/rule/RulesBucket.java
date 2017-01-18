@@ -24,7 +24,7 @@ public class RulesBucket {
                 String condition = str.substring(matcher.start(), matcher.end());
                 int value = 0;
                 try {
-                    value = Integer.parseInt(str.substring(matcher.end()).replace("+",""));
+                    value = Integer.parseInt(str.substring(matcher.end()));
                 } catch (NumberFormatException e) {
                     System.out.println(e.getMessage());
                 }

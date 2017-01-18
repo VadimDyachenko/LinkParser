@@ -34,7 +34,7 @@ public class LinkCollector {
         rules = rulesBucket.getRules();
         fileWorker.write(getLinks());
         double end = System.currentTimeMillis();
-        System.out.println("Runs time = " + (end - start));
+        System.out.println("Run time = " + (end - start));
 
     }
 
@@ -42,13 +42,14 @@ public class LinkCollector {
 
         Map<Integer, String> links = new HashMap<>();
         List<String> hubs = hubsParser.getHubs();
+        ConcurrentMap<Integer, String> checkedPosts = new ConcurrentHashMap<>();
 
         if (hubs != null && !hubs.isEmpty()) {
             ExecutorService executor = Executors.newFixedThreadPool(7);
             List<Future<Map<Integer, String>>> list = new ArrayList<>();
 
             for (String hub : hubs) {
-                Callable<Map<Integer, String>> linkParser = new LinkParser(hub, rules);
+                Callable<Map<Integer, String>> linkParser = new LinkParser(hub, rules, checkedPosts);
                 Future<Map<Integer, String>> future = executor.submit(linkParser);
                 list.add(future);
             }
