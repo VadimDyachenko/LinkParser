@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ua.com.parser.htmlparser.checker.Checker;
+import ua.com.parser.htmlparser.checker.CheckerImpl;
 import ua.com.parser.htmlparser.rule.Rule;
 
 import java.io.IOException;
@@ -13,10 +15,12 @@ import java.util.concurrent.Callable;
 public class LinkParser extends Parser implements Callable<Map<Integer, String>> {
     private String url;
     private List<Rule> rules;
+    private Checker checker;
 
     public LinkParser(String url, List<Rule> rules) {
         this.url = url;
         this.rules = rules;
+        checker = new CheckerImpl();
     }
 
     @Override
@@ -65,26 +69,14 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
 
     private boolean checkRule(Rule rule, Element element) {
 
-        Elements elements = element.getElementsByAttributeValue("class", getClassValue(rule));
+        Elements elements = element.getElementsByAttributeValue("class", checker.getParseValue(rule.getKey()));
         elements.forEach(innerElement -> {
             String value = innerElement.text();
-
+            checker.check(rule, value);
 
         });
 
         return false;
-    }
-
-    private String getClassValue(Rule rule) {
-
-        String result = "views-count_post";
-        if (rule.getKey().equals("vote")) {
-            result = "voting-wjt__counter-score js-score";
-        } else if (rule.getKey().equals("favorite")) {
-            result = "favorite-wjt__counter js-favs_count";
-        }
-
-        return result;
     }
 }
 
