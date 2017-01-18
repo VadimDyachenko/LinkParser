@@ -8,9 +8,6 @@ import ua.com.parser.htmlparser.rule.RuleImpl;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by vadim on 18.01.17.
- */
 public class CheckerImplTest {
 
     @Test
