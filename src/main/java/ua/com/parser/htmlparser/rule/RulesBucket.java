@@ -22,7 +22,12 @@ public class RulesBucket {
 
                 String key = str.substring(0, matcher.start());
                 String condition = str.substring(matcher.start(), matcher.end());
-                int value = Integer.parseInt(str.substring(matcher.end()).replace("+",""));
+                int value = 0;
+                try {
+                    value = Integer.parseInt(str.substring(matcher.end()).replace("+",""));
+                } catch (NumberFormatException e) {
+                    System.out.println(e.getMessage());
+                }
 
                 rules.add(new RuleImpl(key, condition, value));
             }
