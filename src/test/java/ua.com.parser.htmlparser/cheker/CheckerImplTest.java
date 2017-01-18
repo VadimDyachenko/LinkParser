@@ -3,7 +3,6 @@ package ua.com.parser.htmlparser.cheker;
 import org.junit.Test;
 import ua.com.parser.htmlparser.checker.Checker;
 import ua.com.parser.htmlparser.checker.CheckerImpl;
-import ua.com.parser.htmlparser.rule.Key;
 import ua.com.parser.htmlparser.rule.Rule;
 import ua.com.parser.htmlparser.rule.RuleImpl;
 

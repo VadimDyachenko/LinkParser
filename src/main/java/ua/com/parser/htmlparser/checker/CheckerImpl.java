@@ -21,7 +21,7 @@ public class CheckerImpl implements Checker {
     @Override
     public boolean check(Rule rule, String data) {
 
-        int value = convert(rule.getKey(), data);
+        int value = convert(data);
 
         switch (rule.getCondition()) {
 
@@ -36,7 +36,7 @@ public class CheckerImpl implements Checker {
         }
     }
 
-    private int convert(Key key, String data) {
+    private int convert(String data) {
 
         if(data.contains("k")) {
             if (data.contains(",")) {

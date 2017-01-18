@@ -23,10 +23,11 @@ public class Main {
 //            fileWorker.write(collector.getLinks());
             RulesBucket rulesBucket = new RulesBucket();
             List<String> request = new ArrayList<>();
-            request.add("favorite==5");
+            request.add("favorite>=7");
+            request.add("view==1200");
             rulesBucket.createRule(request);
             LinkParser linkParser = new LinkParser("https://habrahabr.ru/hub/webdev/page882/", rulesBucket.getRules());
-            linkParser.call();
+            System.out.println(linkParser.call().values());
 
         } catch (Exception e) {
             e.printStackTrace();

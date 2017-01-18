@@ -25,20 +25,21 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
 
     @Override
     public Map<Integer, String> call() throws Exception {
-        Map<Integer, String> result = new HashMap<>();
 
-        String urlNextPage = url + "/page%s";
+        Map<Integer, String> result = new HashMap<>();
 
         try {
             result.putAll(getLinks(url));
 
             int start = 2; // start index to parse next page;
             for (int i = start; i <= getMaxPageNumber(url); i++) {
-                String nextUrl = String.format(urlNextPage, i);
+
+                String nextUrl = String.format(url + "/page%s", i);
                 result.putAll(getLinks(nextUrl));
             }
+
         } catch (IOException e) {
-            throw new RuntimeException("Failed to get a list of hubs: " + e.getMessage());
+            throw new RuntimeException("Failed to get a list of pages: " + e.getMessage());
         }
         return result;
     }
@@ -51,7 +52,6 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
         Elements elements = doc.getElementsByAttributeValue("class", "post post_teaser shortcuts_item");
 
         elements.forEach(element -> {
-
             Integer id = Integer.parseInt(element.attr("id").replace("post_", ""));
             Element aElement = element.child(0).child(1).child(0);
             String link = aElement.attr("href");
@@ -69,25 +69,11 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
 
     private boolean checkRule(Rule rule, Element element) {
 
+        final String[] value = new String[1];
+
         Elements elements = element.getElementsByAttributeValue("class", checker.getParseValue(rule.getKey()));
-        elements.forEach(innerElement -> {
-            String value = innerElement.text();
-            checker.check(rule, value);
+        elements.forEach(innerElement -> value[0] = innerElement.text());
 
-        });
-
-        return false;
+        return checker.check(rule, value[0]);
     }
 }
-
-
-// 1) Получаем Elements статей на странице.
-//  вычитываем ссылку и id статьи
-// 2) в цикле прогоняем статью по всем правилам:
-//      - если правило key = vote, то ищем внутри element блок <span class="voting-wjt__counter-score js-score" title="Общий рейтинг 52: &uarr;47 и &darr;5">+42</span>
-//            - сравниваем число в блоке с числом в Rule возвращаем true|false
-//      - если правило key = favorite, то внутри element ищем блок <span class="favorite-wjt__counter js-favs_count" title="Количество пользователей, добавивших публикацию в избранное">91</span>
-//            - сравниваем число в блоке с числом в Rule возвращаем true|false
-//      - если правило key = view, то внутри element ищем блок <div class="views-count_post" title="Просмотры публикации">9,5k</div>
-//            - преобразовываем 9,5k в 9500
-//            - сравниваем число в блоке с числом в Rule возвращаем true|false
