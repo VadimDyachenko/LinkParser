@@ -8,9 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-/**
- * Created by vadim on 15.01.17.
- */
 public class FileWorkerImpl implements FileWorker {
 
     private String input;
@@ -23,7 +20,6 @@ public class FileWorkerImpl implements FileWorker {
 
     @Override
     public List<String> read() {
-        File file = new File(input);
         try {
             return Files.readAllLines(Paths.get(input), StandardCharsets.UTF_8);
         } catch (IOException e) {

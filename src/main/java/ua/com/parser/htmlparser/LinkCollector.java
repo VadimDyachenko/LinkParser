@@ -12,11 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
-/**
- * Created by vadim on 15.01.17.
- */
 public class LinkCollector {
-    private final String URL = "https://habrahabr.ru/hubs/";
     private HubsParser hubsParser;
     private List<Rule> rules;
     private FileWorker fileWorker;
@@ -28,14 +24,21 @@ public class LinkCollector {
     public void run() {
         double start = System.currentTimeMillis();
         System.out.println("Program running...");
+
         hubsParser = new HubsParser();
+        setupRules();
+
+        fileWorker.write(getLinks());
+        double end = System.currentTimeMillis();
+
+        System.out.println("Run time = " + (end - start));
+
+    }
+
+    private void setupRules() {
         RulesBucket rulesBucket = new RulesBucket();
         rulesBucket.createRule(fileWorker.read());
         rules = rulesBucket.getRules();
-        fileWorker.write(getLinks());
-        double end = System.currentTimeMillis();
-        System.out.println("Run time = " + (end - start));
-
     }
 
     private List<String> getLinks() {
@@ -45,6 +48,7 @@ public class LinkCollector {
         ConcurrentMap<Integer, String> checkedPosts = new ConcurrentHashMap<>();
 
         if (hubs != null && !hubs.isEmpty()) {
+
             ExecutorService executor = Executors.newFixedThreadPool(7);
             List<Future<Map<Integer, String>>> list = new ArrayList<>();
 
@@ -54,16 +58,23 @@ public class LinkCollector {
                 list.add(future);
             }
 
-            for (Future<Map<Integer, String>> future : list) {
-                try {
-                    links.putAll(future.get());
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
+            appendResults(links, list);
             executor.shutdown();
         }
 
         return new ArrayList<>(links.values());
+    }
+
+    private void appendResults(Map<Integer, String> links, List<Future<Map<Integer, String>>> list) {
+
+        for (Future<Map<Integer, String>> future : list) {
+            try {
+
+                links.putAll(future.get());
+
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
