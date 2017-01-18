@@ -6,7 +6,7 @@ import java.util.List;
  * Created by vadim on 13.01.17.
  */
 public interface FileWorker {
-    List<String> read(String fileName);
+    List<String> read();
 
-    void write(List<String> links, String path);
+    void write(List<String> links);
 }

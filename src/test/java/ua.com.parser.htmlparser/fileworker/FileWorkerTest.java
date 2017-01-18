@@ -2,7 +2,10 @@ package ua.com.parser.htmlparser.fileworker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by aleksandr
@@ -11,16 +14,28 @@ import java.util.List;
 public class FileWorkerTest {
 
     @Test
-    public void test_read() {
+    public void testRead() {
+        //given
+        FileWorker fileWorker = new FileWorkerImpl("src/test/resources/input.txt", null);
+        //when
+        List<String> requests = fileWorker.read();
+        //then
+        assertEquals("[favorite>+50, vote>=100]", requests.toString());
+    }
 
-        String pathInput = "src/test/resources/input.txt";
+    @Test
+    public void testWrite() {
+        //given
+        FileWorker fileWorker = new FileWorkerImpl("src/test/resources/output.txt",
+                "src/test/resources/output.txt");
+        List<String> links = new ArrayList<>();
+        links.add("https://habrahabr.ru/post/852/");
+        //when
+        fileWorker.write(links);
+        List<String> actual = fileWorker.read();
 
-        FileWorker fileWorker = new FileWorkerImpl();
-
-        List<String> requests = fileWorker.read(pathInput);
-        for (String str : requests) {
-            System.out.println(str);
-        }
+        //then
+        assertEquals("[https://habrahabr.ru/post/852/]", actual.toString());
 
     }
 }

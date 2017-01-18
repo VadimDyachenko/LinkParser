@@ -13,19 +13,27 @@ import java.util.List;
  */
 public class FileWorkerImpl implements FileWorker {
 
+    private String input;
+    private String output;
+
+    public FileWorkerImpl(String input, String output) {
+        this.input = input;
+        this.output = output;
+    }
+
     @Override
-    public List<String> read(String fileName) {
-        File file = new File(fileName);
+    public List<String> read() {
+        File file = new File(input);
         try {
-            return Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+            return Files.readAllLines(Paths.get(input), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public void write(List<String> links, String path) {
-        File file = new File(path);
+    public void write(List<String> links) {
+        File file = new File(output);
         try {
             if (!file.exists()) {
                 file.createNewFile();

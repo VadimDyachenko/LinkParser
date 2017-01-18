@@ -16,10 +16,9 @@ public class RuleBucketTest {
     @Test
     public void testCreateRule() {
         //given
-        FileWorker file = new FileWorkerImpl();
+        FileWorker file = new FileWorkerImpl("src/test/resources/input.txt", null);
         RulesBucket bucket = new RulesBucket();
-        String inputPath = "src/test/resources/input.txt";
-        List<String> requests = file.read(inputPath);
+        List<String> requests = file.read();
         //when
         bucket.createRule(requests);
 
