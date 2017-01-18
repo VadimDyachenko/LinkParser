@@ -26,28 +26,29 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
     @Override
     public Map<Integer, String> call() throws Exception {
 
+        System.out.println("Start parsing url: " + url );
         Map<Integer, String> result = new HashMap<>();
-
+        String nextUrl = "";
         try {
             result.putAll(getLinks(url));
-
             int start = 2; // start index to parse next page;
             for (int i = start; i <= getMaxPageNumber(url); i++) {
 
-                String nextUrl = String.format(url + "/page%s", i);
+                nextUrl = String.format(url + "/page%s", i);
                 result.putAll(getLinks(nextUrl));
             }
 
         } catch (IOException e) {
-            throw new RuntimeException("Failed to get a list of pages: " + e.getMessage());
+
+            throw new RuntimeException("Failed to get a list of pages: "+ nextUrl + " : "+ e.getMessage());
         }
+        System.out.println("hub:" + url + " parsed successful");
         return result;
     }
 
     private Map<Integer, String> getLinks(String url) throws IOException {
 
         Map<Integer, String> result = new HashMap<>();
-
         Document doc = Jsoup.connect(url).get();
         Elements elements = doc.getElementsByAttributeValue("class", "post post_teaser shortcuts_item");
 

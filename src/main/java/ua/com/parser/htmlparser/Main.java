@@ -2,36 +2,17 @@ package ua.com.parser.htmlparser;
 
 import ua.com.parser.htmlparser.fileworker.FileWorker;
 import ua.com.parser.htmlparser.fileworker.FileWorkerImpl;
-import ua.com.parser.htmlparser.parser.LinkParser;
-import ua.com.parser.htmlparser.rule.RulesBucket;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by vadim on 15.01.17.
- */
 public class Main {
     public static void main(String[] args) {
 
+        String input = "src/test/resources/input.txt";
+        String output = "src/test/resources/output.txt";
+
 //        checkArgs(args);
-        FileWorker fileWorker = new FileWorkerImpl();
-
-        try {
-
-//            LinkCollector collector = new LinkCollector(fileWorker.read(args[0]));
-//            fileWorker.write(collector.getLinks());
-            RulesBucket rulesBucket = new RulesBucket();
-            List<String> request = new ArrayList<>();
-            request.add("favorite>=7");
-            request.add("view==1200");
-            rulesBucket.createRule(request);
-            LinkParser linkParser = new LinkParser("https://habrahabr.ru/hub/webdev/page882/", rulesBucket.getRules());
-            System.out.println(linkParser.call().values());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        FileWorker fileWorker = new FileWorkerImpl(input, output);
+        LinkCollector linkCollector = new LinkCollector(fileWorker);
+        linkCollector.run();
     }
 
     private static void checkArgs(String[] args) { //TODO избавиться от static

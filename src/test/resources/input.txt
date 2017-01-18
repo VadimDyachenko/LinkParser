@@ -1,2 +1,1 @@
-favorite>+50
-vote>=100
+favorite>+100
