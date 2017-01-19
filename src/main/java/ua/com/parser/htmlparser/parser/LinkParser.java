@@ -11,22 +11,25 @@ import ua.com.parser.htmlparser.rule.Rule;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentMap;
 
 public class LinkParser extends Parser implements Callable<Map<Integer, String>> {
     private String url;
     private List<Rule> rules;
+    private ConcurrentMap checkedPost;
     private Checker checker;
 
-    public LinkParser(String url, List<Rule> rules) {
+    public LinkParser(String url, List<Rule> rules, ConcurrentMap checkedPost) {
         this.url = url;
         this.rules = rules;
+        this.checkedPost = checkedPost;
         checker = new CheckerImpl();
     }
 
     @Override
     public Map<Integer, String> call() throws Exception {
 
-        System.out.println("Start parsing url: " + url );
+        System.out.println("Start parsing url: " + url);
         Map<Integer, String> result = new HashMap<>();
         String nextUrl = "";
         try {
@@ -39,9 +42,9 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
             }
 
         } catch (IOException e) {
-
-            throw new RuntimeException("Failed to get a list of pages: "+ nextUrl + " : "+ e.getMessage());
+            throw new RuntimeException("Failed to get a list of pages: " + nextUrl + " : " + e.getMessage());
         }
+
         System.out.println("hub:" + url + " parsed successful");
         return result;
     }
@@ -54,11 +57,14 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
 
         elements.forEach(element -> {
             Integer id = Integer.parseInt(element.attr("id").replace("post_", ""));
+            if (checkedPost.containsKey(id)) return;
+            checkedPost.put(id, "");
+
             Element aElement = element.child(0).child(1).child(0);
             String link = aElement.attr("href");
 
             for (Rule rule : rules) {
-                if(checkRule(rule, element)) {
+                if (checkRule(rule, element)) {
                     result.put(id, link);
                     break;
                 }
@@ -73,8 +79,9 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
         final String[] value = new String[1];
 
         Elements elements = element.getElementsByAttributeValue("class", checker.getParseValue(rule.getKey()));
-        elements.forEach(innerElement -> value[0] = innerElement.text());
-
-        return checker.check(rule, value[0]);
+        if (!elements.isEmpty()) {
+            elements.forEach(innerElement -> value[0] = innerElement.text());
+            return checker.check(rule, value[0]);
+        } else return false;
+        }
     }
-}

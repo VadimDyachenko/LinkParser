@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by vadim on 16.01.17.
- */
 
 public class HubsParser extends Parser {
 
@@ -19,20 +16,22 @@ public class HubsParser extends Parser {
         List<String> result = new ArrayList<>();
 
         String url = "https://habrahabr.ru/hubs";
-        String urlNextPages = url + "/page%s";
 
         try {
             result.addAll(getHubLinks(url));
 
-            int start = 2; // start index to parse next page;
-            for (int i = start; i <= getMaxPageNumber(url) ; i++) {
-                String nextUrl =String.format(urlNextPages, i);
-                result.addAll(getHubLinks(nextUrl));
-            }
+// Do not uncomment this if you do not want to banned of habrahabr ! :)
+
+//            String urlNextPages = url + "/page%s";
+//            int start = 2; // start index to parse next page;
+//            for (int i = start; i <= getMaxPageNumber(url); i++) {
+//                String nextUrl = String.format(urlNextPages, i);
+//                result.addAll(getHubLinks(nextUrl));
+//            }
+
         } catch (IOException e) {
             throw new RuntimeException("Failed to get a list of hubs: " + e.getMessage());
         }
-
         return result;
     }
 
@@ -48,5 +47,4 @@ public class HubsParser extends Parser {
 
         return result;
     }
-
 }

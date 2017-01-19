@@ -8,9 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-/**
- * Created by vadim on 15.01.17.
- */
 public class FileWorkerImpl implements FileWorker {
 
     private String input;

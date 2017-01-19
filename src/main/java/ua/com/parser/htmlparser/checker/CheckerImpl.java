@@ -46,6 +46,7 @@ public class CheckerImpl implements Checker {
             }
         }
 
+        data = data.replace("–", "-");
         return Integer.parseInt(data);
     }
 }
