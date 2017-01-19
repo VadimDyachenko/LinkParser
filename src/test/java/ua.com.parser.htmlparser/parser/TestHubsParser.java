@@ -38,7 +38,7 @@ public class TestHubsParser {
     }
 
     @Test
-    public void testGetHubs() {
+    public void testGetLinks() {
         //given
         PowerMockito.mockStatic(Jsoup.class);
         Connection connection_hubs = Mockito.mock(Connection.class);
@@ -60,7 +60,7 @@ public class TestHubsParser {
         assertEquals("[https://habrahabr.ru/hub/infosecurity/, " +
                 "https://habrahabr.ru/hub/programming/, " +
                 "https://habrahabr.ru/hub/gamedev/, " +
-                "https://habrahabr.ru/hub/ui/, h" +
-                "ttps://habrahabr.ru/hub/unity3d/]", hubsParser.getHubs().toString());
+                "https://habrahabr.ru/hub/ui/, " +
+                "https://habrahabr.ru/hub/unity3d/]", hubsParser.getHubs().toString());
     }
 }

@@ -27,16 +27,16 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
     }
 
     @Override
-    public Map<Integer, String> call() throws Exception {
+    public Map<Integer, String> call() {
 
         System.out.println("Start parsing url: " + url);
         Map<Integer, String> result = new HashMap<>();
         String nextUrl = "";
         try {
             result.putAll(getLinks(url));
+
             int start = 2; // start index to parse next page;
             for (int i = start; i <= getMaxPageNumber(url); i++) {
-
                 nextUrl = String.format(url + "/page%s", i);
                 result.putAll(getLinks(nextUrl));
             }
@@ -56,17 +56,20 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
         Elements elements = doc.getElementsByAttributeValue("class", "post post_teaser shortcuts_item");
 
         elements.forEach(element -> {
+
             Integer id = Integer.parseInt(element.attr("id").replace("post_", ""));
-            if (checkedPost.containsKey(id)) return;
-            checkedPost.put(id, "");
+            if (!checkedPost.containsKey(id)) {
 
-            Element aElement = element.child(0).child(1).child(0);
-            String link = aElement.attr("href");
+                checkedPost.put(id, "");
 
-            for (Rule rule : rules) {
-                if (checkRule(rule, element)) {
-                    result.put(id, link);
-                    break;
+                Element aElement = element.child(0).child(1).child(0);
+                String link = aElement.attr("href");
+
+                for (Rule rule : rules) {
+                    if (checkRule(rule, element)) {
+                        result.put(id, link);
+                        break;
+                    }
                 }
             }
         });

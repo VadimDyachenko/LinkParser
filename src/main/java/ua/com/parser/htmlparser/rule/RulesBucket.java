@@ -17,37 +17,47 @@ public class RulesBucket {
         for (String str : requests) {
 
             Matcher matcher = pattern.matcher(str);
-
             if(matcher.find()) {
 
-                String strKey = str.substring(0, matcher.start());
-                if (isInvalid(strKey)) continue;
-                Key key = Key.valueOf(strKey.toUpperCase());
+                Key key = getKey(str, matcher);
+                if (key == null) continue;
 
                 String condition = str.substring(matcher.start(), matcher.end());
 
-                int value = 0;
-                try {
-                    value = Integer.parseInt(str.substring(matcher.end()));
-                } catch (NumberFormatException e) {
-                    System.out.println(e.getMessage());
-                }
+                int value = getValue(str, matcher);
 
                 rules.add(new RuleImpl(key, condition, value));
             }
         }
     }
 
-    private boolean isInvalid(String key) {
+    private Key getKey(String str, Matcher matcher) {
+        String strKey = str.substring(0, matcher.start());
+        if (!isValid(strKey)) return null;
+
+        return Key.valueOf(strKey.toUpperCase());
+    }
+
+    private int getValue(String str, Matcher matcher) {
+        int value = 0;
+        try {
+            value = Integer.parseInt(str.substring(matcher.end()));
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
+        return value;
+    }
+
+    private boolean isValid(String key) {
         switch (key) {
             case "vote":
-                return false;
-            case "view":
-                return false;
-            case "favorite":
-                return false;
-            default:
                 return true;
+            case "view":
+                return true;
+            case "favorite":
+                return true;
+            default:
+                return false;
         }
     }
 

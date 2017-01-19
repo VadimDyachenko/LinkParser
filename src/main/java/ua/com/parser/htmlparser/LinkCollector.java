@@ -48,8 +48,7 @@ public class LinkCollector {
         ConcurrentMap<Integer, String> checkedPosts = new ConcurrentHashMap<>();
 
         if (hubs != null && !hubs.isEmpty()) {
-
-            ExecutorService executor = Executors.newFixedThreadPool(7);
+            ExecutorService executor = Executors.newFixedThreadPool(6);
             List<Future<Map<Integer, String>>> list = new ArrayList<>();
 
             for (String hub : hubs) {
@@ -69,9 +68,7 @@ public class LinkCollector {
 
         for (Future<Map<Integer, String>> future : list) {
             try {
-
                 links.putAll(future.get());
-
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }

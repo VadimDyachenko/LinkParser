@@ -27,11 +27,4 @@ public class RuleImpl implements Rule {
     public int getValue() {
         return value;
     }
-
-    @Override
-    public String toString() {
-        return  "key='" + key + '\'' +
-                ", condition='" + condition + '\'' +
-                ", value='" + value + '\'';
-    }
 }

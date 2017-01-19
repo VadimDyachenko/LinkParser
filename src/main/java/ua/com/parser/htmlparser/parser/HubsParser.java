@@ -20,12 +20,15 @@ public class HubsParser extends Parser {
         try {
             result.addAll(getHubLinks(url));
 
+//   Закомментируйте эти строки если не хотите, чтобы Хабр вас забанил. :)
+//--->
             String urlNextPages = url + "/page%s";
             int start = 2; // start index to parse next page;
             for (int i = start; i <= getMaxPageNumber(url); i++) {
                 String nextUrl = String.format(urlNextPages, i);
                 result.addAll(getHubLinks(nextUrl));
             }
+//            <----
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to get a list of hubs: " + e.getMessage());
