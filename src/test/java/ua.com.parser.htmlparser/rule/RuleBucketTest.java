@@ -23,6 +23,6 @@ public class RuleBucketTest {
         bucket.createRule(requests);
 
         //then
-        assertEquals(50, bucket.getRules().get(0).getValue() );
+        assertEquals(100, bucket.getRules().get(0).getValue() );
     }
 }

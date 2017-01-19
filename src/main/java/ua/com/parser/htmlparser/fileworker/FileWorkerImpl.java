@@ -23,7 +23,6 @@ public class FileWorkerImpl implements FileWorker {
 
     @Override
     public List<String> read() {
-        File file = new File(input);
         try {
             return Files.readAllLines(Paths.get(input), StandardCharsets.UTF_8);
         } catch (IOException e) {

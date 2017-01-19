@@ -3,6 +3,7 @@ package ua.com.parser.htmlparser.cheker;
 import org.junit.Test;
 import ua.com.parser.htmlparser.checker.Checker;
 import ua.com.parser.htmlparser.checker.CheckerImpl;
+import ua.com.parser.htmlparser.rule.Key;
 import ua.com.parser.htmlparser.rule.Rule;
 import ua.com.parser.htmlparser.rule.RuleImpl;
 
@@ -15,9 +16,10 @@ public class CheckerImplTest {
 
     @Test
     public void testConvertFirst(){
+
         //given
         Checker checker = new CheckerImpl();
-        Rule rule = new RuleImpl("favorite", ">", 100);
+        Rule rule = new RuleImpl(Key.FAVORITE, ">", 100);
 
         //then
         assertTrue(checker.check(rule,"9k"));
@@ -27,7 +29,7 @@ public class CheckerImplTest {
     public void testConvertSecond(){
         //given
         Checker checker = new CheckerImpl();
-        Rule rule = new RuleImpl("vote", "==", 1500);
+        Rule rule = new RuleImpl(Key.VOTE, "==", 1500);
 
         //then
         assertTrue(checker.check(rule,"1,5k"));

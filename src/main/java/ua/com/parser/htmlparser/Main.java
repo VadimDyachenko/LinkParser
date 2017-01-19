@@ -15,7 +15,7 @@ public class Main {
         linkCollector.run();
     }
 
-    private static void checkArgs(String[] args) { //TODO избавиться от static
+    private static void checkArgs(String[] args) { // TODO избавиться от static
         if (args.length != 2) {
             throw new IllegalArgumentException("Incorrect number input parameters\n" +
                     "You must input two path of file:\n" +
