@@ -19,7 +19,10 @@ public class Main {
 
     }
 
-    private static void checkArgs(String[] args) {
+
+    private static void checkArgs(String[] args) { // TODO избавиться от static
+
+
         if (args.length != 2) {
             throw new IllegalArgumentException("Incorrect number input parameters");
         }

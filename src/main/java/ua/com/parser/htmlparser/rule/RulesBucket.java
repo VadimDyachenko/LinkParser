@@ -10,7 +10,7 @@ public class RulesBucket {
 
     private List<Rule> rules = new LinkedList<>();
 
-    public void createRule(List<String> requests) {
+    public void createRule(List<String> requests) throws RuntimeException {
 
         Pattern pattern = Pattern.compile("[><=!]+");
 
@@ -20,7 +20,9 @@ public class RulesBucket {
 
             if(matcher.find()) {
 
-                String key = str.substring(0, matcher.start());
+                String strKey = str.substring(0, matcher.start());
+                if (isInvalid(strKey)) continue;
+                Key key = Key.valueOf(strKey.toUpperCase());
                 String condition = str.substring(matcher.start(), matcher.end());
                 int value = 0;
                 try {
@@ -31,6 +33,19 @@ public class RulesBucket {
 
                 rules.add(new RuleImpl(key, condition, value));
             }
+        }
+    }
+
+    private boolean isInvalid(String key) {
+        switch (key) {
+            case "vote":
+                return false;
+            case "view":
+                return false;
+            case "favorite":
+                return false;
+            default:
+                return true;
         }
     }
 

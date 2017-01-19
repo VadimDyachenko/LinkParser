@@ -16,6 +16,7 @@ public class CheckerImplTest {
 
     @Test
     public void testConvertFirst(){
+
         //given
         Checker checker = new CheckerImpl();
         Rule ruleA = new RuleImpl("favorite", "<", 100);
@@ -38,7 +39,7 @@ public class CheckerImplTest {
     public void testConvertSecond(){
         //given
         Checker checker = new CheckerImpl();
-        Rule rule = new RuleImpl("vote", "==", 1500);
+        Rule rule = new RuleImpl(Key.VOTE, "==", 1500);
 
         //then
         assertTrue(checker.check(rule,"1,5k"));
