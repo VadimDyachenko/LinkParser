@@ -21,7 +21,7 @@ public class FileWorkerTest {
         List<String> requests = fileWorker.read();
         //then
 
-        assertEquals("[favorite>+100, vote>=100]", requests.toString());
+        assertEquals("[favorite>50, vote>+100]", requests.toString());
     }
 
     @Test
@@ -30,13 +30,13 @@ public class FileWorkerTest {
         FileWorker fileWorker = new FileWorkerImpl("src/test/resources/output.txt",
                 "src/test/resources/output.txt");
         List<String> links = new ArrayList<>();
-        links.add("https://habrahabr.ru/post/852/");
+        links.add("some link");
         //when
         fileWorker.write(links);
         List<String> actual = fileWorker.read();
 
         //then
-        assertEquals("[https://habrahabr.ru/post/852/]", actual.toString());
+        assertEquals("[some link]", actual.toString());
 
     }
 }

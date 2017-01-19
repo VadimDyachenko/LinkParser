@@ -23,7 +23,9 @@ public class RulesBucket {
                 String strKey = str.substring(0, matcher.start());
                 if (isInvalid(strKey)) continue;
                 Key key = Key.valueOf(strKey.toUpperCase());
+
                 String condition = str.substring(matcher.start(), matcher.end());
+
                 int value = 0;
                 try {
                     value = Integer.parseInt(str.substring(matcher.end()));

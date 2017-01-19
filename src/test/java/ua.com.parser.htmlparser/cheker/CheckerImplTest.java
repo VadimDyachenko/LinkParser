@@ -1,6 +1,5 @@
 package ua.com.parser.htmlparser.cheker;
 
-import org.junit.Before;
 import org.junit.Test;
 import ua.com.parser.htmlparser.checker.Checker;
 import ua.com.parser.htmlparser.checker.CheckerImpl;
@@ -19,12 +18,12 @@ public class CheckerImplTest {
 
         //given
         Checker checker = new CheckerImpl();
-        Rule ruleA = new RuleImpl("favorite", "<", 100);
-        Rule ruleB = new RuleImpl("vote", ">", 1200);
-        Rule ruleC = new RuleImpl("view", "<=", 2000);
-        Rule ruleD = new RuleImpl("vote", ">=", 5);
-        Rule ruleE = new RuleImpl("view", "==", 1);
-        Rule ruleF = new RuleImpl("favorite", "!=", 1);
+        Rule ruleA = new RuleImpl(Key.FAVORITE, "<", 100);
+        Rule ruleB = new RuleImpl(Key.VOTE, ">", 1200);
+        Rule ruleC = new RuleImpl(Key.VIEW, "<=", 2000);
+        Rule ruleD = new RuleImpl(Key.VOTE, ">=", 5);
+        Rule ruleE = new RuleImpl(Key.VIEW, "==", 1);
+        Rule ruleF = new RuleImpl(Key.FAVORITE, "!=", 1);
 
         //then
         assertTrue(checker.check(ruleA,"1"));

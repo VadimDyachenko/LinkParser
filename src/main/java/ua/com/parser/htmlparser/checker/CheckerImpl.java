@@ -23,7 +23,6 @@ public class CheckerImpl implements Checker {
         int value = convert(data);
 
         switch (rule.getCondition()) {
-
             case "<": return value < rule.getValue();
             case ">": return value > rule.getValue();
             case "<=": return value <= rule.getValue();
