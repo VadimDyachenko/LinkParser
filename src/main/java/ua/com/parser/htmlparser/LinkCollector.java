@@ -32,7 +32,6 @@ public class LinkCollector {
         double end = System.currentTimeMillis();
 
         System.out.println("Run time = " + (end - start));
-
     }
 
     private void setupRules() {
@@ -68,7 +67,9 @@ public class LinkCollector {
 
         for (Future<Map<Integer, String>> future : list) {
             try {
-                links.putAll(future.get());
+                if(!future.get().isEmpty()) {
+                    links.putAll(future.get());
+                }
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
