@@ -20,6 +20,7 @@ public class FileWorkerTest {
         //when
         List<String> requests = fileWorker.read();
         //then
+
         assertEquals("[favorite>+100, vote>=100]", requests.toString());
     }
 

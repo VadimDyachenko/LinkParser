@@ -9,12 +9,11 @@ public class CheckerImpl implements Checker {
     public String getParseValue(Key key) {
 
         switch (key) {
-
             case VOTE: return "voting-wjt__counter-score js-score";
             case VIEW: return "views-count_post";
             case FAVORITE: return "favorite-wjt__counter js-favs_count";
 
-            default: return "";
+            default: throw new IllegalArgumentException("Unsupported key");
         }
     }
 
