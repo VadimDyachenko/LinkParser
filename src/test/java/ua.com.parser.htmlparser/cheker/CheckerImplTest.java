@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 public class CheckerImplTest {
 
     @Test
-    public void testConvertFirst(){
+    public void testCheck(){
 
         //given
         Checker checker = new CheckerImpl();
@@ -32,16 +32,6 @@ public class CheckerImplTest {
         assertTrue(checker.check(ruleD,"5"));
         assertFalse(checker.check(ruleE,"10"));
         assertFalse(checker.check(ruleF,"1"));
-    }
-
-    @Test
-    public void testConvertSecond(){
-        //given
-        Checker checker = new CheckerImpl();
-        Rule rule = new RuleImpl(Key.VOTE, "==", 1500);
-
-        //then
-        assertTrue(checker.check(rule,"1,5k"));
     }
 
     @Test

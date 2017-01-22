@@ -13,8 +13,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 public class LinkCollector {
-    private HubsParser hubsParser;
-    private List<Rule> rules;
+
     private FileWorker fileWorker;
 
     public LinkCollector(FileWorker fileWorker) {
@@ -25,25 +24,22 @@ public class LinkCollector {
         double start = System.currentTimeMillis();
         System.out.println("Program running...");
 
-        hubsParser = new HubsParser();
-        setupRules();
+        List<Rule> rules = setupRules();
+        fileWorker.write(getLinks(rules));
 
-        fileWorker.write(getLinks());
         double end = System.currentTimeMillis();
-
-        System.out.println("Run time = " + (end - start));
+        System.out.println("Run time = " + (end - start) + "ms");
     }
 
-    private void setupRules() {
+    private List<Rule> setupRules() {
         RulesBucket rulesBucket = new RulesBucket();
         rulesBucket.createRule(fileWorker.read());
-        rules = rulesBucket.getRules();
+        return rulesBucket.getRules();
     }
 
-    private List<String> getLinks() {
-
+    private List<String> getLinks( List<Rule> rules) {
         Map<Integer, String> links = new HashMap<>();
-        List<String> hubs = hubsParser.getHubs();
+        List<String> hubs = new HubsParser().getHubs();
         ConcurrentMap<Integer, String> checkedPosts = new ConcurrentHashMap<>();
 
         if (hubs != null && !hubs.isEmpty()) {
@@ -64,10 +60,9 @@ public class LinkCollector {
     }
 
     private void appendResults(Map<Integer, String> links, List<Future<Map<Integer, String>>> list) {
-
         for (Future<Map<Integer, String>> future : list) {
             try {
-                if(!future.get().isEmpty()) {
+                if(future != null && !future.get().isEmpty()) {
                     links.putAll(future.get());
                 }
             } catch (InterruptedException | ExecutionException e) {

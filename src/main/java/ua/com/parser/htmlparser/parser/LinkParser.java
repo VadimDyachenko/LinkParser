@@ -28,7 +28,6 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
 
     @Override
     public Map<Integer, String> call() {
-
         System.out.println("Start parsing url: " + url);
         Map<Integer, String> result = new HashMap<>();
         String nextUrl = "";
@@ -50,7 +49,6 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
     }
 
     private Map<Integer, String> getLinks(String url) throws IOException {
-
         Map<Integer, String> result = new HashMap<>();
         Document doc = Jsoup.connect(url).get();
         Elements elements = doc.getElementsByAttributeValue("class", "post post_teaser shortcuts_item");
@@ -78,7 +76,6 @@ public class LinkParser extends Parser implements Callable<Map<Integer, String>>
     }
 
     private boolean checkRule(Rule rule, Element element) {
-
         final String[] value = new String[1];
 
         Elements elements = element.getElementsByAttributeValue("class", checker.getParseValue(rule.getKey()));

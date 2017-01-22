@@ -21,9 +21,7 @@ public class RulesBucket {
 
                 Key key = getKey(str, matcher);
                 if (key == null) continue;
-
                 String condition = str.substring(matcher.start(), matcher.end());
-
                 int value = getValue(str, matcher);
 
                 rules.add(new RuleImpl(key, condition, value));

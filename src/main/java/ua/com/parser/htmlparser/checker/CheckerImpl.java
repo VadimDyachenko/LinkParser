@@ -34,7 +34,7 @@ public class CheckerImpl implements Checker {
         }
     }
 
-    private int convert(String data) {
+    private int convert(String data) throws NumberFormatException {
 
         if(data.contains("k")) {
             if (data.contains(",")) {
