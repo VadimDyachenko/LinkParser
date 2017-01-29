@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Jsoup.class)
 
-public class TestHubsParser {
+public class HubsParserTest {
     private Document doc_hubs;
     private Document doc_page2;
 

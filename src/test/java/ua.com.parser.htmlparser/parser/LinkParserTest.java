@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Jsoup.class)
 
-public class TestLinkParser {
+public class LinkParserTest {
     private Document post_page1;
     private Document post_page2;
     private Connection connectionPage1;
