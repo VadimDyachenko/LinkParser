@@ -37,14 +37,13 @@ public class LinkCollector {
         return rulesBucket.getRules();
     }
 
-    private List<String> getLinks( List<Rule> rules) {
-        Map<Integer, String> links = new HashMap<>();
+    private List<String> getLinks(List<Rule> rules) {
         List<String> hubs = new HubsParser().getHubs();
         ConcurrentMap<Integer, String> checkedPosts = new ConcurrentHashMap<>();
 
+        List<Future<Map<Integer, String>>> list = new ArrayList<>();
         if (hubs != null && !hubs.isEmpty()) {
             ExecutorService executor = Executors.newFixedThreadPool(6);
-            List<Future<Map<Integer, String>>> list = new ArrayList<>();
 
             for (String hub : hubs) {
                 Callable<Map<Integer, String>> linkParser = new LinkParser(hub, rules, checkedPosts);
@@ -52,22 +51,23 @@ public class LinkCollector {
                 list.add(future);
             }
 
-            appendResults(links, list);
             executor.shutdown();
         }
 
-        return new ArrayList<>(links.values());
+        return new ArrayList<>(appendResults(list).values());
     }
 
-    private void appendResults(Map<Integer, String> links, List<Future<Map<Integer, String>>> list) {
+    private Map<Integer, String> appendResults(List<Future<Map<Integer, String>>> list) {
+        Map<Integer, String> result = new HashMap<>();
         for (Future<Map<Integer, String>> future : list) {
             try {
-                if(future != null && !future.get().isEmpty()) {
-                    links.putAll(future.get());
+                if (future != null && !future.get().isEmpty()) {
+                    result.putAll(future.get());
                 }
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
+        return result;
     }
 }

@@ -26,8 +26,8 @@ public class TestHubsParser {
 
     @Before
     public void setUP() {
-        File file_hubs = new File("src/test/resources/html/hubs.html");
-        File file_page2 = new File("src/test/resources/html/page2.html");
+        File file_hubs = new File("src/test/resources/html/hubs_page1.html");
+        File file_page2 = new File("src/test/resources/html/hubs_page2.html");
         try {
             doc_hubs = Jsoup.parse(file_hubs, "UTF-8");
             doc_page2 = Jsoup.parse(file_page2, "UTF-8");
