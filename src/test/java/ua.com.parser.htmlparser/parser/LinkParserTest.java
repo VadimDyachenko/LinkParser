@@ -33,7 +33,8 @@ public class LinkParserTest {
     private Document post_page2;
     private Connection connectionPage1;
     private Connection connectionPage2;
-;
+    ;
+
     @Before
     public void setUP() {
         File file_hubs = new File("src/test/resources/html/post_page1.html");
@@ -52,21 +53,16 @@ public class LinkParserTest {
     }
 
     @Test
-    public void callTest() {
+    public void callTest() throws IOException {
         //given
         List<Rule> rules = new ArrayList<>();
-        rules.add(new RuleImpl(Key.VIEW,">", 29000));
+        rules.add(new RuleImpl(Key.VIEW, ">", 29000));
         ConcurrentMap<Integer, String> checkedPosts = new ConcurrentHashMap<>();
 
-        try {
-            PowerMockito.when(Jsoup.connect("https://posts")).thenReturn(connectionPage1);
-            PowerMockito.when(Jsoup.connect("https://posts/page2")).thenReturn(connectionPage2);
-            Mockito.when(connectionPage1.get()).thenReturn(post_page1);
-            Mockito.when(connectionPage2.get()).thenReturn(post_page2);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PowerMockito.when(Jsoup.connect("https://posts")).thenReturn(connectionPage1);
+        PowerMockito.when(Jsoup.connect("https://posts/page2")).thenReturn(connectionPage2);
+        Mockito.when(connectionPage1.get()).thenReturn(post_page1);
+        Mockito.when(connectionPage2.get()).thenReturn(post_page2);
 
         Map<Integer, String> expected = new HashMap<>();
         expected.put(319360, "https://habrahabr.ru/post/319360/");
