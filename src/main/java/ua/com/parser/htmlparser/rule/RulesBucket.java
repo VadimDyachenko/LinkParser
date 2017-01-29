@@ -1,6 +1,5 @@
 package ua.com.parser.htmlparser.rule;
 
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -19,10 +18,18 @@ public class RulesBucket {
             Matcher matcher = pattern.matcher(str);
             if(matcher.find()) {
 
-                Key key = getKey(str, matcher);
-                if (key == null) continue;
-                String condition = str.substring(matcher.start(), matcher.end());
-                int value = getValue(str, matcher);
+                Key key = null;
+                String condition = null;
+                int value = 0;
+
+                try {
+                    key = getKey(str, matcher);
+                    condition = str.substring(matcher.start(), matcher.end());
+                    value = getValue(str, matcher);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Rule: \"" + str + "\" ignored, illegal argument: " + e.getMessage());
+                    continue;
+                }
 
                 rules.add(new RuleImpl(key, condition, value));
             }
@@ -31,19 +38,13 @@ public class RulesBucket {
 
     private Key getKey(String str, Matcher matcher) {
         String strKey = str.substring(0, matcher.start());
-        if (!isValid(strKey)) return null;
+        if (!isValid(strKey)) throw new IllegalArgumentException("Unsupported Key");
 
         return Key.valueOf(strKey.toUpperCase());
     }
 
-    private int getValue(String str, Matcher matcher) {
-        int value = 0;
-        try {
-            value = Integer.parseInt(str.substring(matcher.end()));
-        } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
-        }
-        return value;
+    private int getValue(String str, Matcher matcher) throws NumberFormatException {
+        return Integer.parseInt(str.substring(matcher.end()));
     }
 
     private boolean isValid(String key) {
